@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const TOKEN = 'YOUR_GITHUB_TOKEN';
-const REPO_OWNER = 'GITHUB_USERNAME';
-const REPO_NAME = 'GITHUB_REPOSITORY';
+const TOKEN = import.meta.env.VITE_GITHUB_ACCESS_TOKEN;
+const REPO_OWNER = import.meta.env.VITE_REPO_OWNER;
+const REPO_NAME = import.meta.env.VITE_REPO_NAME;
 const FILE_PATH = 'database.sql';
 
 export async function pushToGitHub(content) {
