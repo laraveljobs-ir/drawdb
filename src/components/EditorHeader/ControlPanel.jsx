@@ -73,6 +73,7 @@ import { jsonToMermaid } from "../../utils/exportAs/mermaid";
 import { isRtl } from "../../i18n/utils/rtl";
 import { jsonToDocumentation } from "../../utils/exportAs/documentation";
 import { IdContext } from "../Workspace";
+import { pushToGitHub } from "../../utils/exportSQL/sentToGithub.js";
 
 export default function ControlPanel({
   diagramId,
@@ -1269,6 +1270,18 @@ export default function ControlPanel({
         ],
         function: () => {},
       },
+      push_to_github:{
+        function: () => {
+          const src = jsonToMySQL({
+            tables: tables,
+            references: relationships,
+            types: types,
+            database: database,
+          });
+
+          pushToGitHub(src);
+        },
+      },
       zoom_in: {
         function: zoomIn,
         shortcut: "Ctrl+(Up/Wheel)",
@@ -1377,6 +1390,7 @@ export default function ControlPanel({
     preventDefault: true,
   });
   useHotkeys("ctrl+alt+w, meta+alt+w", fitWindow, { preventDefault: true });
+  useHotkeys("ctrl+alt+s", menu.view.push_to_github.function, { preventDefault: true });
 
   return (
     <>
@@ -1579,6 +1593,14 @@ export default function ControlPanel({
               }}
             >
               <i className="fa-solid fa-circle-half-stroke" />
+            </button>
+          </Tooltip>
+          <Tooltip content={t("push_to_github")} position="bottom">
+            <button
+                className="py-1 px-2 hover-2 rounded text-xl -mt-0.5"
+                onClick={ menu.view.push_to_github.function }
+            >
+              <i className="bi bi-github" />
             </button>
           </Tooltip>
         </div>
