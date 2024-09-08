@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {Toast} from "@douyinfe/semi-ui";
+import {t} from "i18next";
 
 const TOKEN = import.meta.env.VITE_GITHUB_ACCESS_TOKEN;
 const REPO_OWNER = import.meta.env.VITE_REPO_OWNER;
@@ -54,9 +56,8 @@ export async function pushToGitHub(content) {
             force: true,
         }, {headers});
 
-        alert('Commit created successfully. ✅');
+        Toast.success(t("Commit created successfully."));
     } catch (error) {
-        alert('Error creating commit. ❌');
+        Toast.error(t("Error creating commit. ") + error.message);
     }
-
 }
